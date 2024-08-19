@@ -37,8 +37,8 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
-        <script src="data/07_MRC_RLS_municipalits_0.js"></script>
-        <script src="data/temp2_1.js"></script>
+        <script src="data/07_MRC_RLS_municipalits_1.js"></script>
+        <script src="data/temp2_2.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -47,7 +47,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[45.2991882129957,-76.15236928130041],[45.71208923033072,-75.1695649251461]]);
+        }).fitBounds([[45.2478579544396,-76.11609365023465],[45.61964799838062,-75.15159839294127]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -86,7 +86,18 @@
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
-        function pop_07_MRC_RLS_municipalits_0(feature, layer) {
+        map.createPane('pane_GoogleSatellite_0');
+        map.getPane('pane_GoogleSatellite_0').style.zIndex = 400;
+        var layer_GoogleSatellite_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+        });
+        layer_GoogleSatellite_0;
+        map.addLayer(layer_GoogleSatellite_0);
+        function pop_07_MRC_RLS_municipalits_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if (typeof layer.closePopup == 'function') {
@@ -199,9 +210,9 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_07_MRC_RLS_municipalits_0_0() {
+        function style_07_MRC_RLS_municipalits_1_0() {
             return {
-                pane: 'pane_07_MRC_RLS_municipalits_0',
+                pane: 'pane_07_MRC_RLS_municipalits_1',
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
                 dashArray: '',
@@ -212,21 +223,21 @@
                 interactive: false,
             }
         }
-        map.createPane('pane_07_MRC_RLS_municipalits_0');
-        map.getPane('pane_07_MRC_RLS_municipalits_0').style.zIndex = 400;
-        map.getPane('pane_07_MRC_RLS_municipalits_0').style['mix-blend-mode'] = 'normal';
-        var layer_07_MRC_RLS_municipalits_0 = new L.geoJson(json_07_MRC_RLS_municipalits_0, {
+        map.createPane('pane_07_MRC_RLS_municipalits_1');
+        map.getPane('pane_07_MRC_RLS_municipalits_1').style.zIndex = 401;
+        map.getPane('pane_07_MRC_RLS_municipalits_1').style['mix-blend-mode'] = 'normal';
+        var layer_07_MRC_RLS_municipalits_1 = new L.geoJson(json_07_MRC_RLS_municipalits_1, {
             attribution: '',
             interactive: false,
-            dataVar: 'json_07_MRC_RLS_municipalits_0',
-            layerName: 'layer_07_MRC_RLS_municipalits_0',
-            pane: 'pane_07_MRC_RLS_municipalits_0',
-            onEachFeature: pop_07_MRC_RLS_municipalits_0,
-            style: style_07_MRC_RLS_municipalits_0_0,
+            dataVar: 'json_07_MRC_RLS_municipalits_1',
+            layerName: 'layer_07_MRC_RLS_municipalits_1',
+            pane: 'pane_07_MRC_RLS_municipalits_1',
+            onEachFeature: pop_07_MRC_RLS_municipalits_1,
+            style: style_07_MRC_RLS_municipalits_1_0,
         });
-        bounds_group.addLayer(layer_07_MRC_RLS_municipalits_0);
-        map.addLayer(layer_07_MRC_RLS_municipalits_0);
-        function pop_temp2_1(feature, layer) {
+        bounds_group.addLayer(layer_07_MRC_RLS_municipalits_1);
+        map.addLayer(layer_07_MRC_RLS_municipalits_1);
+        function pop_temp2_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if (typeof layer.closePopup == 'function') {
@@ -264,9 +275,9 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_temp2_1_0() {
+        function style_temp2_2_0() {
             return {
-                pane: 'pane_temp2_1',
+                pane: 'pane_temp2_2',
                 radius: 4.0,
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
@@ -280,26 +291,26 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_temp2_1');
-        map.getPane('pane_temp2_1').style.zIndex = 401;
-        map.getPane('pane_temp2_1').style['mix-blend-mode'] = 'normal';
-        var layer_temp2_1 = new L.geoJson(json_temp2_1, {
+        map.createPane('pane_temp2_2');
+        map.getPane('pane_temp2_2').style.zIndex = 402;
+        map.getPane('pane_temp2_2').style['mix-blend-mode'] = 'normal';
+        var layer_temp2_2 = new L.geoJson(json_temp2_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_temp2_1',
-            layerName: 'layer_temp2_1',
-            pane: 'pane_temp2_1',
-            onEachFeature: pop_temp2_1,
+            dataVar: 'json_temp2_2',
+            layerName: 'layer_temp2_2',
+            pane: 'pane_temp2_2',
+            onEachFeature: pop_temp2_2,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_temp2_1_0(feature));
+                return L.circleMarker(latlng, style_temp2_2_0(feature));
             },
         });
-        bounds_group.addLayer(layer_temp2_1);
-        map.addLayer(layer_temp2_1);
+        bounds_group.addLayer(layer_temp2_2);
+        map.addLayer(layer_temp2_2);
         var osmGeocoder = new L.Control.Geocoder({
             collapsed: true,
             position: 'topleft',
@@ -312,8 +323,9 @@
         .title += 'Search for a place';
         var baseMaps = {};
         var overlaysTree = [
-            {label: '<img src="legend/temp2_1.png" /> temp2', layer: layer_temp2_1},
-            {label: '<img src="legend/07_MRC_RLS_municipalits_0.png" /> 07_MRC_RLS_municipalités', layer: layer_07_MRC_RLS_municipalits_0},]
+            {label: '<img src="legend/temp2_2.png" /> temp2', layer: layer_temp2_2},
+            {label: '<img src="legend/07_MRC_RLS_municipalits_1.png" /> 07_MRC_RLS_municipalités', layer: layer_07_MRC_RLS_municipalits_1},
+            {label: "Google Satellite", layer: layer_GoogleSatellite_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
             //selectorBack: false,
