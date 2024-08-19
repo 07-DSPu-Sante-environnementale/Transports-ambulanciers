@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         html, body, #map {
             width: 100%;
@@ -37,8 +38,10 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
-        <script src="data/07_MRC_RLS_municipalits_1.js"></script>
-        <script src="data/temp2_2.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/lotsdechaleur_1.js"></script>
+        <script src="data/Municipalits_2.js"></script>
+        <script src="data/Transportsambulanciers_3.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -47,7 +50,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[45.2478579544396,-76.11609365023465],[45.61964799838062,-75.15159839294127]]);
+        }).fitBounds([[45.30168315030993,-76.1026460616215],[45.673119596587505,-75.1381508043281]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -83,6 +86,16 @@
             position: 'topleft'
         }).addTo(map);
         L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
@@ -97,7 +110,80 @@
         });
         layer_GoogleSatellite_0;
         map.addLayer(layer_GoogleSatellite_0);
-        function pop_07_MRC_RLS_municipalits_1(feature, layer) {
+        function pop_lotsdechaleur_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DN'] !== null ? autolinker.link(feature.properties['DN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_lotsdechaleur_1_0(feature) {
+            switch(String(feature.properties['DN'])) {
+                case '8':
+                    return {
+                pane: 'pane_lotsdechaleur_1',
+                opacity: 1,
+                color: 'rgba(253,141,60,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,141,60,1.0)',
+                interactive: false,
+            }
+                    break;
+                case '9':
+                    return {
+                pane: 'pane_lotsdechaleur_1',
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_lotsdechaleur_1');
+        map.getPane('pane_lotsdechaleur_1').style.zIndex = 401;
+        map.getPane('pane_lotsdechaleur_1').style['mix-blend-mode'] = 'normal';
+        var layer_lotsdechaleur_1 = new L.geoJson(json_lotsdechaleur_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_lotsdechaleur_1',
+            layerName: 'layer_lotsdechaleur_1',
+            pane: 'pane_lotsdechaleur_1',
+            onEachFeature: pop_lotsdechaleur_1,
+            style: style_lotsdechaleur_1_0,
+        });
+        bounds_group.addLayer(layer_lotsdechaleur_1);
+        map.addLayer(layer_lotsdechaleur_1);
+        function pop_Municipalits_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if (typeof layer.closePopup == 'function') {
@@ -210,11 +296,11 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_07_MRC_RLS_municipalits_1_0() {
+        function style_Municipalits_2_0() {
             return {
-                pane: 'pane_07_MRC_RLS_municipalits_1',
+                pane: 'pane_Municipalits_2',
                 opacity: 1,
-                color: 'rgba(0,0,0,1.0)',
+                color: 'rgba(255,255,255,1.0)',
                 dashArray: '',
                 lineCap: 'square',
                 lineJoin: 'bevel',
@@ -223,21 +309,21 @@
                 interactive: false,
             }
         }
-        map.createPane('pane_07_MRC_RLS_municipalits_1');
-        map.getPane('pane_07_MRC_RLS_municipalits_1').style.zIndex = 401;
-        map.getPane('pane_07_MRC_RLS_municipalits_1').style['mix-blend-mode'] = 'normal';
-        var layer_07_MRC_RLS_municipalits_1 = new L.geoJson(json_07_MRC_RLS_municipalits_1, {
+        map.createPane('pane_Municipalits_2');
+        map.getPane('pane_Municipalits_2').style.zIndex = 402;
+        map.getPane('pane_Municipalits_2').style['mix-blend-mode'] = 'normal';
+        var layer_Municipalits_2 = new L.geoJson(json_Municipalits_2, {
             attribution: '',
             interactive: false,
-            dataVar: 'json_07_MRC_RLS_municipalits_1',
-            layerName: 'layer_07_MRC_RLS_municipalits_1',
-            pane: 'pane_07_MRC_RLS_municipalits_1',
-            onEachFeature: pop_07_MRC_RLS_municipalits_1,
-            style: style_07_MRC_RLS_municipalits_1_0,
+            dataVar: 'json_Municipalits_2',
+            layerName: 'layer_Municipalits_2',
+            pane: 'pane_Municipalits_2',
+            onEachFeature: pop_Municipalits_2,
+            style: style_Municipalits_2_0,
         });
-        bounds_group.addLayer(layer_07_MRC_RLS_municipalits_1);
-        map.addLayer(layer_07_MRC_RLS_municipalits_1);
-        function pop_temp2_2(feature, layer) {
+        bounds_group.addLayer(layer_Municipalits_2);
+        map.addLayer(layer_Municipalits_2);
+        function pop_Transportsambulanciers_3(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if (typeof layer.closePopup == 'function') {
@@ -252,19 +338,19 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">DATE</th>\
+                        <th scope="row">Date</th>\
                         <td>' + (feature.properties['DATE'] !== null ? autolinker.link(feature.properties['DATE'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">HEURE</th>\
+                        <th scope="row">Heure</th>\
                         <td>' + (feature.properties['HEURE'] !== null ? autolinker.link(feature.properties['HEURE'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">CITY</th>\
+                        <th scope="row">Municipalité</th>\
                         <td>' + (feature.properties['CITY'] !== null ? autolinker.link(feature.properties['CITY'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">ADDRESS</th>\
+                        <th scope="row">Adresse</th>\
                         <td>' + (feature.properties['ADDRESS'] !== null ? autolinker.link(feature.properties['ADDRESS'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
@@ -275,9 +361,9 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_temp2_2_0() {
+        function style_Transportsambulanciers_3_0() {
             return {
-                pane: 'pane_temp2_2',
+                pane: 'pane_Transportsambulanciers_3',
                 radius: 4.0,
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
@@ -291,26 +377,26 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_temp2_2');
-        map.getPane('pane_temp2_2').style.zIndex = 402;
-        map.getPane('pane_temp2_2').style['mix-blend-mode'] = 'normal';
-        var layer_temp2_2 = new L.geoJson(json_temp2_2, {
+        map.createPane('pane_Transportsambulanciers_3');
+        map.getPane('pane_Transportsambulanciers_3').style.zIndex = 403;
+        map.getPane('pane_Transportsambulanciers_3').style['mix-blend-mode'] = 'normal';
+        var layer_Transportsambulanciers_3 = new L.geoJson(json_Transportsambulanciers_3, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_temp2_2',
-            layerName: 'layer_temp2_2',
-            pane: 'pane_temp2_2',
-            onEachFeature: pop_temp2_2,
+            dataVar: 'json_Transportsambulanciers_3',
+            layerName: 'layer_Transportsambulanciers_3',
+            pane: 'pane_Transportsambulanciers_3',
+            onEachFeature: pop_Transportsambulanciers_3,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_temp2_2_0(feature));
+                return L.circleMarker(latlng, style_Transportsambulanciers_3_0(feature));
             },
         });
-        bounds_group.addLayer(layer_temp2_2);
-        map.addLayer(layer_temp2_2);
+        bounds_group.addLayer(layer_Transportsambulanciers_3);
+        map.addLayer(layer_Transportsambulanciers_3);
         var osmGeocoder = new L.Control.Geocoder({
             collapsed: true,
             position: 'topleft',
@@ -323,8 +409,9 @@
         .title += 'Search for a place';
         var baseMaps = {};
         var overlaysTree = [
-            {label: '<img src="legend/temp2_2.png" /> temp2', layer: layer_temp2_2},
-            {label: '<img src="legend/07_MRC_RLS_municipalits_1.png" /> 07_MRC_RLS_municipalités', layer: layer_07_MRC_RLS_municipalits_1},
+            {label: '<img src="legend/Transportsambulanciers_3.png" /> Transports ambulanciers', layer: layer_Transportsambulanciers_3},
+            {label: '<img src="legend/Municipalits_2.png" /> Municipalités', layer: layer_Municipalits_2},
+            {label: 'Îlots de chaleur<br /><table><tr><td style="text-align: center;"><img src="legend/lotsdechaleur_1_Chaud0.png" /></td><td>Chaud</td></tr><tr><td style="text-align: center;"><img src="legend/lotsdechaleur_1_Trèschaud1.png" /></td><td>Très chaud</td></tr></table>', layer: layer_lotsdechaleur_1},
             {label: "Google Satellite", layer: layer_GoogleSatellite_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
